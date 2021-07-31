@@ -24,7 +24,7 @@ GRANT UNLIMITED TABLESPACE TO sa_tnx_sales_user;
 ALTER USER sa_geo_locations_user QUOTA UNLIMITED ON TS_SA_GEO_LOCATIONS_DATA_01;
 GRANT UNLIMITED TABLESPACE TO sa_geo_locations_user;
 
-
+TRUNCATE TABLE sa_customers_user.sa_customers;
 INSERT INTO sa_customers_user.sa_customers(customer_id
                                            , customer_desc
                                            , customer_gender
@@ -34,14 +34,14 @@ SELECT ROWNUM
        , randomstring('FM', 1)
        , round((DBMS_RANDOM.VALUE(1, 100)),0) 
   FROM DUAL
-  CONNECT BY LEVEL <= 100000;
-
+  CONNECT BY LEVEL <= 5000000;
+COMMIT;
 
 SELECT * FROM sa_customers_user.sa_customers;
 
 
 
-
+TRUNCATE TABLE sa_companies_user.sa_companies;
 INSERT INTO sa_companies_user.sa_companies(company_id
                                            , company_desc
                                            , company_name)
@@ -49,15 +49,15 @@ SELECT ROWNUM
        , 'Company ' || to_char(ROWNUM)
        , DBMS_RANDOM.STRING('L',TRUNC(DBMS_RANDOM.VALUE(10,21)))
   FROM DUAL
-  CONNECT BY LEVEL <= 100;
+  CONNECT BY LEVEL <= 500000;
 COMMIT;
 
 SELECT * FROM sa_companies_user.sa_companies;
 
 
 
-
-
+--TRUNCATE TABLE ts_dw_data_user.dw_games_scd;
+TRUNCATE TABLE sa_games_user.sa_games;
 INSERT INTO sa_games_user.sa_games(game_id
                                    , game_desc
                                    , game_cost
@@ -68,23 +68,30 @@ INSERT INTO sa_games_user.sa_games(game_id
 SELECT ROWNUM
        , 'Game ' || to_char(ROWNUM)
        , ROUND((Dbms_Random.VALUE(1, 1000)),0)
-       , round((DBMS_RANDOM.VALUE(1, 40)),0),
+       , round((DBMS_RANDOM.VALUE(1, 4000)),0),
        'Category ' 
-       ,Round((DBMS_RANDOM.VALUE(1, 10)),0)
+       ,Round((DBMS_RANDOM.VALUE(1, 100)),0)
        ,  'Platform' 
   FROM dual
-CONNECT BY LEVEL <= 100000;
+CONNECT BY LEVEL <= 50000;
 COMMIT;
 
 
 UPDATE sa_games_user.sa_games
-   SET platform_desc = 'Platform 10'
- WHERE platform_id = 10;
-commit;
+   SET category_desc = 'Category ' || to_char(category_id);
+COMMIT;
 
 SELECT * FROM sa_games_user.sa_games;
 
 
+UPDATE sa_games_user.sa_games
+   SET platform_desc = 'PLatform ' || to_char(platform_id);
+COMMIT;
+
+
+
+
+SELECT * FROM sa_games_user.sa_games;
 
 
 --(select date '2020-01-01' + level - 1 datum
