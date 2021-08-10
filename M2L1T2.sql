@@ -13,8 +13,8 @@ CREATE OR REPLACE FUNCTION randomstring(p_Characters VARCHAR2, p_length NUMBER)
 COMMIT;
 
 
---ALTER USER sa_customers_user QUOTA UNLIMITED ON TS_SA_CUSTOMERS_DATA_01;
---GRANT UNLIMITED TABLESPACE TO sa_customers_user;
+ALTER USER sa_customers_user QUOTA UNLIMITED ON TS_SA_CUSTOMERS_DATA_01;
+GRANT UNLIMITED TABLESPACE TO sa_customers_user;
 ALTER USER sa_games_user QUOTA UNLIMITED ON TS_SA_GAMES_DATA_01;
 GRANT UNLIMITED TABLESPACE TO sa_games_user;
 ALTER USER sa_companies_user QUOTA UNLIMITED ON TS_SA_COMPANIES_DATA_01;
@@ -92,14 +92,6 @@ COMMIT;
 
 
 SELECT * FROM sa_games_user.sa_games;
-
-
---(select date '2020-01-01' + level - 1 datum
---     from dual
---     connect by level <= date '2020-12-31' - date '2020-01-01' + 1
---)
---  select datum
---  From dates
 
 TRUNCATE TABLE sa_tnx_sales_user.sa_tnx_sales;
 INSERT INTO sa_tnx_sales_user.sa_tnx_sales(sales_id
